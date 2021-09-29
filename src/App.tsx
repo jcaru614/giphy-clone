@@ -30,11 +30,10 @@ function App() {
 	const getTopTenGiphy = async () => {
 		await axios
 			.get(
-				`${BASE_URL}/trending?api_key=${API_KEY}&limit=15
+				`${BASE_URL}/trending?api_key=${API_KEY}&limit=10
     `
 			)
 			.then((res) => {
-				console.log('res 10', res.data);
 				const topTen = res.data.data;
 				setResult(topTen);
 				setPages(topTen);
@@ -51,7 +50,6 @@ function App() {
     `
 			)
 			.then((res) => {
-				console.log('search res ', res.data);
 				const searchRes = res.data.data;
 				setSearchText('');
 				pageMaker(searchRes);
@@ -62,22 +60,18 @@ function App() {
 	};
 
 	const pageMaker = (searchRes: any) => {
-		console.log('SEARACHRES ', searchRes);
 		const pages: any = [];
 		let page: any = [];
 		let count = 0;
 		for (let i = 0; i < searchRes.length; i++) {
-			const element = searchRes[i];
-			console.log(`before page & ${count}`, page);
+			const element = searchRes[i]
 			if (count === 10) {
 				pages.push(page);
 				page = [];
 				count = 0;
 			}
-			console.log(`after page & ${count}`, page);
 			page.push(element);
 			count++;
-			console.log('pages ', pages);
 		}
 		setPages(pages);
 		setPage(pages[0]);
@@ -85,11 +79,9 @@ function App() {
 
 	const onChangeHandler = (e: any) => {
 		setSearchText(e.target.value);
-		console.log('e ', e.target.value);
 	};
 
 	const handlePageChange = (event: any, value: any) => {
-		console.log('value ', value);
 		setPage(pages[value - 1]);
 		setPageNumber(value);
 	};
